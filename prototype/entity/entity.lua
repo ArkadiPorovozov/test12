@@ -4,13 +4,14 @@ local sounds = require("__base__.prototypes.entity.sounds")
 
 local q = "__test12__"
 
-
+local pipe_picture = require(q .. ".prototype.pipe_picture")
+local proto = require(q .. ".prototype.proto")
 local function F()
   return
   {
     {
       production_type = "input",
-      --pipe_picture = white_pipes(),
+      pipe_picture = pipe_picture.e1_pipe_pictures(),
       pipe_covers = pipecoverspictures(),
       volume = 1000,
       pipe_connections = { { flow_direction = "input", direction = defines.direction.north, position = { 0, -1 } } },
@@ -18,7 +19,7 @@ local function F()
     },
     {
       production_type = "input",
-      --pipe_picture = white_pipes(),
+      pipe_picture = pipe_picture.e1_pipe_pictures(),
       pipe_covers = pipecoverspictures(),
       volume = 1000,
       pipe_connections = { { flow_direction = "input", direction = defines.direction.south, position = { 0, 1 } } },
@@ -26,7 +27,7 @@ local function F()
     },
     {
       production_type = "output",
-      --pipe_picture = white_pipes(),
+      pipe_picture = pipe_picture.e1_pipe_pictures(),
       pipe_covers = pipecoverspictures(),
       volume = 1000,
       pipe_connections = { { flow_direction = "output", direction = defines.direction.east, position = { 1, 0 } } },
@@ -34,7 +35,7 @@ local function F()
     },
     {
       production_type = "output",
-      --pipe_picture = white_pipes(),
+      pipe_picture = pipe_picture.e1_pipe_pictures(),
       pipe_covers = pipecoverspictures(),
       volume = 1000,
       pipe_connections = { { flow_direction = "output", direction = defines.direction.west, position = { -1, 0 } } },
@@ -51,11 +52,15 @@ local function E()
       emissions_per_minute = { pollution = 2 }
     }
 end
+
+
+
 --space-assembler
 local sapace_asm_it = table.deepcopy(data.raw["item"]["assembling-machine-2"])
 sapace_asm_it.name = "space-assembler"
 sapace_asm_it.icon = "__cr-commons__/graphics/entity/assembler/icon.png"
 sapace_asm_it.place_result = sapace_asm_it.name
+sapace_asm_it.subgroup = "space-platform"
 data:extend({sapace_asm_it})
 
 local sapace_asm = {}--table.deepcopy(data.raw["assembling-machine"]["assembling-machine-2"])
@@ -85,6 +90,8 @@ sapace_asm.close_sound = sounds.machine_close
 sapace_asm.impact_category = "metal"
 sapace_asm.module_slots = 4
 sapace_asm.allowed_effects = {"consumption", "speed", "pollution"}
+
+sapace_asm.surface_conditions = proto.planet()
 
 sapace_asm.fluid_boxes_off_when_no_fluid_recipe = true
 sapace_asm.fluid_boxes = F()
