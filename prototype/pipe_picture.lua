@@ -21,7 +21,7 @@ local function e1_pipe_pictures()
       "/graphics/pipe_picture/assembling-machine-pipe-N.png", --main_path
       71,                                                     --w
       38,                                                     --h
-      util.by_pixel_hr(3, 27)                                    --shift
+      util.by_pixel_hr(3, 27)                                 --shift
     ),
 
     east = make_pipe_layers(
