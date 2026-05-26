@@ -2,7 +2,7 @@
 local locations_to_generate = {
     {
         base_name = "sosal",
-        variations = 8,
+        variations = 12,
         distance = 30,
         orientation = 0.125,
         icon = "__space-age__/graphics/icons/solar-system-edge.png",
