@@ -1,27 +1,8 @@
---[[
--- Предмет для установки тела
-data:extend({
-  {
-    type = "item",
-    name = "body-capsule",
-    icon = "__core__/graphics/icons/entity/character.png",
-    icon_size = 64,
-    place_result = "sleeping-body",
-    subgroup = "space-platform",
-    stack_size = 10
-  }
-})
 
--- Сущность спящего тела
-local shell = table.deepcopy(data.raw["character-corpse"]["character-corpse"])
-shell.name = "sleeping-body"
-shell.time_to_live = 0 -- Вечное тело
-shell.inventory_size = 255
-shell.minable = {mining_time = 0.5, result = "body-capsule"}
-shell.flags = {"placeable-player", "player-creation", "not-repairable"}
-
-data:extend{shell}
-]]
+local hit_effects = require("__base__.prototypes.entity.hit-effects")
+local item_sounds = require("__base__.prototypes.item_sounds")
+local sounds = require("__base__.prototypes.entity.sounds")
+local q = "__test12__"
 
 data:extend({
   {
@@ -31,7 +12,7 @@ data:extend({
     consuming = "none"
   },
 })
--- Предмет-капсула
+
 data:extend({{
     type = "item",
     name = "body-capsule",
@@ -42,14 +23,14 @@ data:extend({{
     stack_size = 10
 }})
 
--- СУЩНОСТЬ: Контейнер с внешностью трупа
+
 local shell = table.deepcopy(data.raw["container"]["iron-chest"])
 shell.name = "sleeping-body"
 shell.icon = "__core__/graphics/icons/entity/character.png"
-shell.inventory_size = 200 -- Огромный инвентарь
+shell.inventory_size = 200
 shell.minable = {mining_time = 0.5, result = "body-capsule"}
 
--- ГРАФИКА: Копируем анимацию лежащего тела
+
 shell.picture = {
     layers = {
         {
@@ -83,7 +64,7 @@ shell.picture = {
         },
     }
 }
--- Убираем тень или настраиваем её, если нужно
+
 shell.selection_box = {{-0.8, -0.8}, {0.8, 0.8}}
 shell.collision_box = {{-0.5, -0.5}, {0.5, 0.5}}
 
@@ -110,7 +91,7 @@ data:extend({
     volume = 1.0
   }
 })
--- Регистрация нового типа урона
+
 if not data.raw["damage-type"]["biological"] then
     data:extend({
         {
@@ -122,11 +103,45 @@ end
 
 
 
--- Изменяем терминал: теперь это "storage-tank" или "programmable-speaker", 
--- чтобы на него можно было нажать и поймать событие открытия.
+
 local station = table.deepcopy(data.raw["container"]["iron-chest"])
 station.name = "neural-server"
-station.inventory_size = 0 -- в нем нет места для вещей, только для Master'а
+station.inventory_size = 0
+station.picture = {
+  layers = {
+    {
+      filename = "__base__/graphics/entity/beacon/beacon-shadow.png",
+      width = 244,
+      height = 176,
+      shift = util.by_pixel(12.5, 0.5), --filename =  q .. "/graphics/entity/beacon/beacon-bottom1.png",
+      frame_count = 1,
+      draw_as_shadow = true,
+      scale = 0.5,
+    },
+    {
+      filename =  q .. "/graphics/entity/beakon/beacon-bottom1.png",
+      width = 212,
+      height = 192,
+      --shift = util.by_pixel(12.5, 0.5),
+      frame_count = 1,
+      --draw_as_shadow = true,
+      scale = 0.5,
+    },
+  }
+}
+station.radius_visualisation_specification = {
+  draw_on_selection = true,
+  draw_on_cursor    = true,
+  distance = 4.5,
+  sprite = {
+    filename = "__base__/graphics/entity/beacon/beacon-radius-visualization.png",
+    tint = {r = 0, g = 0, b = 0, a = 0.5},
+    width = 10,
+    height = 10,
+  }
+}
+station.collision_box = {{-1.1, -1.1}, {1.1, 1.1}}
+station.selection_box = {{-1.5, -1.5}, {1.5, 1.5}}
 data:extend{station}
 
 local station_it = table.deepcopy(data.raw["item"]["iron-chest"])
@@ -145,6 +160,65 @@ data:extend{
       height = 64,
     }
 }
+
+
+
+data:extend({
+  {
+    type = "recipe",
+    name = "neural-cooling-recipe",
+    icon = "__base__/graphics/icons/fluid/water.png",
+    category = "neural-cooling-category",
+    enabled = true,
+    ingredients = {
+      {type = "fluid", name = "water", amount = 50}
+    },
+    energy_required = 1,
+    results = {}
+  },
+  {
+    type = "recipe-category",
+    name = "neural-cooling-category"
+  }
+})
+
+
+local radiator = table.deepcopy(data.raw["assembling-machine"]["assembling-machine-1"])
+radiator.name = "neural-radiator"
+radiator.minable = {mining_time = 1, result = "neural-radiator"}
+radiator.fixed_recipe = "neural-cooling-recipe"
+radiator.crafting_categories = {"neural-cooling-category"}
+radiator.fluid_boxes = {
+    {
+      --hide_connection_info = true,
+      --draw_only_when_connected = true,
+      secondary_draw_orders = { north = -1 },
+      --secondary_draw_orders = {north = -1},
+      --pipe_picture = require("__space-age__.prototypes.entity.electromagnetic-plant-pictures").pipe_pictures,
+      --pipe_picture_frozen = require("__space-age__.prototypes.entity.electromagnetic-plant-pictures").pipe_pictures_frozen,
+      --pipe_covers = pipecoverspictures(),
+      volume = 100,
+      production_type = "input",
+      pipe_connections =
+      {
+        { flow_direction = "input-output", direction = 0, position = { 0, -1 }},
+        { flow_direction = "input-output", direction = 12, position = {-1, 0}},
+        { flow_direction = "input-output", direction = 8, position = {0, 1}},
+        { flow_direction = "input-output", direction = 4, position = {1, 0}},
+      },
+    }
+}
+radiator.energy_usage = "2MW"
+radiator.graphics_set = require (q .. ".death-is-not-the-end.graphics.scrubber").scrubber_graphics_set
+data:extend{radiator}
+
+local radiator_it = table.deepcopy(data.raw["item"]["iron-chest"])
+radiator_it.name = radiator.name
+radiator_it.subgroup = "space-platform"
+radiator_it.icon = q .. "/graphics/entity/scrubber/scrubber-icon.png"
+radiator_it.place_result = radiator.name
+data:extend{radiator_it}
+
 
 --[[
 sleeping_body.picture = {

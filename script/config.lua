@@ -1,17 +1,26 @@
 local Config = {
     TRANSFER_DURATION = 5,
     TRANSFER_COOLDOWN = 15,
-    
+
+
     MAX_HUBS_PER_PLANET = 1,
+    BODIES_PER_RADIATOR = 3,
+    RADIATOR_RADIUS = 4.5,
     SERVER_BUILDING_NAME = "neural-server",
+    RADIATOR_NAME = "neural-radiator",
 
-    -- ВИЗУАЛЬНЫЙ ЭФФЕКТ НА СЕРВЕРЕ
-    -- Можно использовать: "utility/status_working", "utility/recharge_icon", "entity/character"
-    SERVER_GHOST_SPRITE = "recharge_icon",
-    SPRITE_SCALE = 1.5,
-    SPRITE_OFFSET = {0, -2.5}, -- Немного поднял выше
 
-    CHANCES = { stable = 70, slow = 20, rupture = 5, spasm = 5 },
+    SMOKE_NAME = "turbine-smoke",
+    SMOKE_OFFSET = {x = -0.5, y = -2.3},
+    SMOKE_TICK_RATE = 10,
+
+    CHANCES = { 
+        stable = 70,
+        slow = 10,
+        rupture = 5,
+        spasm = 5
+    },
+
     SLOW_DEATH_DAMAGE = 2,
     SLOW_DEATH_DURATION = 120,
     AGONY_DURATION = 10,
