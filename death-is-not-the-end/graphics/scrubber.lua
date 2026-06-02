@@ -23,14 +23,16 @@ local function scrubber_furnace_animation()
         scale = w,
         repeat_count = 60,
       }),
+      --[[
       util.sprite_load(q .. "/graphics/entity/scrubber/scrubber-color1",
       {
         priority = "high",
         scale = w,
         animation_speed = b,
         frame_count = 60,
-        tint = { 251,	206, 177, 0.5 },
+        tint = { 225,	206, 177, 1 },
       }),
+      ]]
 -- -- -- -- -- -- -- -- -- -- --
     --[[
      util.sprite_load(q .. "/graphics/entity/conduit/conduit-color1",

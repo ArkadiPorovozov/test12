@@ -28,6 +28,9 @@ local Config = {
 
     SOUND_START = "bn-transfer-start",
     SOUND_FINISH = "bn-transfer-success",
-    SOUND_RUPTURE = "bn-rupture"
+    SOUND_RUPTURE = "bn-rupture",
+
+
+
 }
 return Config

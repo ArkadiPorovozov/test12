@@ -49,6 +49,7 @@ local space_locations_to_generate = {
 
 local connections_config = {
     {from = "solar-system-edge", to = "shattered-planet", length = 15000, name = "solar-system-edge-shattered-planet"},
+    {from = "aegis-inner-edge", to = "bellicos-orbit", length = 300000, name = "aegis-bellicos-connection"},
 --[[
     {from = "nauvis", to = "fulgora", length = 5000},
     {from = "nauvis", to = "rubia", length = 5000},
