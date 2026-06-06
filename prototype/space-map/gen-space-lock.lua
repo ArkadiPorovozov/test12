@@ -1,4 +1,49 @@
 
+local small_and_medium_asteroids = {
+  -- METALLIC
+  {
+    asteroid = "small-metallic-asteroid",
+    probability = 1,
+    spawn_points_per_km = 10,
+    speed = 0.001
+  },
+  {
+    asteroid = "medium-metallic-asteroid",
+    probability = 0.3,
+    spawn_points_per_km = 2,
+    speed = 0.001
+  },
+
+  -- CARBONIC
+  {
+    asteroid = "small-carbonic-asteroid",
+    probability = 1,
+    spawn_points_per_km = 10,
+    speed = 0.001
+  },
+  {
+    asteroid = "medium-carbonic-asteroid",
+    probability = 0.3,
+    spawn_points_per_km = 2,
+    speed = 0.001
+  },
+
+  -- OXIDE
+  {
+    asteroid = "small-oxide-asteroid",
+    probability = 1,
+    spawn_points_per_km = 10,
+    speed = 0.001
+  },
+  {
+    asteroid = "medium-oxide-asteroid",
+    probability = 0.3,
+    spawn_points_per_km = 2,
+    speed = 0.001
+  },
+
+}
+
 local locations_to_generate = {
     {
         base_name = "sosal",
@@ -11,6 +56,8 @@ local locations_to_generate = {
         subgroup = "planets",
         label_orientation = 0.15,
         solar_power_in_space = 100,
+        asteroid_spawn_definitions = small_and_medium_asteroids
+
     },
 
     -- {

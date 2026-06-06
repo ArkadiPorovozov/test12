@@ -208,6 +208,21 @@ radiator.fluid_boxes = {
       },
     }
 }
+radiator.working_sound = {
+      sound =
+      {
+        filename = "__base__/sound/steam-turbine.ogg",
+        volume = 0.49,
+        modifiers = volume_multiplier("main-menu", 0.7),
+        speed_smoothing_window_size = 60,
+        advanced_volume_control = {attenuation = "exponential"},
+        audible_distance_modifier = 0.8,
+      },
+      match_speed_to_activity = true,
+      max_sounds_per_prototype = 3,
+      fade_in_ticks = 4,
+      fade_out_ticks = 20
+    }
 radiator.energy_usage = "2MW"
 radiator.graphics_set = require (q .. ".death-is-not-the-end.graphics.scrubber").scrubber_graphics_set
 data:extend{radiator}
@@ -223,98 +238,6 @@ data:extend{radiator_it}
 
 
 
-
---- space drop
-
-data:extend({
-  {
-    type = "item",
-    name = "orbital-remote",
-    icon = "__base__/graphics/icons/cargo-pod.png",
-    icon_size = 64,
-    stack_size = 1,
-    subgroup = "tool",
-    order = "a[orbital]-b[remote]"
-  },
-  -- Хоткей
-  {
-    type = "custom-input",
-    name = "oc-open-menu",
-    key_sequence = "SHIFT + G",
-    consuming = "none"
-  },
-  -- Ярлык на панели (чтобы открывать мышкой)
-  {
-    type = "shortcut",
-    name = "oc-shortcut",
-    action = "lua",
-    icon = "__base__/graphics/icons/cargo-pod.png",
-    small_icon = "__base__/graphics/icons/cargo-pod.png",
-    icon_size = 64,
-    associated_control_input = "oc-open-menu", -- СВЯЗКА: Кнопка теперь привязана к хоткею
-    default_enabled = true,
-    localised_name = {"", "Orbital Delivery"}
-  }
-})
-
-
-
-
--- 1. Рецепт "Контейнер для сброса" (Сталь -> Ящик)
-data:extend({
-  {
-    type = "recipe",
-    name = "orbital-dispatch-chest-recipe",
-    enabled = true,
-    ingredients = {{type = "item", name = "steel-plate", amount = 5}},
-    energy_required = 2,
-    results = {{type = "item", name = "steel-chest", amount = 1}},
-    category = "crafting"
-  },
-  -- 2. Предмет Диспетчер
-  {
-    type = "item",
-    name = "orbital-dispatcher",
-    icon = "__base__/graphics/icons/beacon.png",
-    subgroup = "space-platform",
-    icon_size = 64,
-    place_result = "orbital-dispatcher",
-    stack_size = 10
-  }
-})
-
-local dispatcher = table.deepcopy(data.raw["assembling-machine"]["assembling-machine-2"])
-dispatcher.name = "orbital-dispatcher"
-dispatcher.minable = {mining_time = 1, result = "orbital-dispatcher"}
-dispatcher.fixed_recipe = "orbital-dispatch-chest-recipe" -- Только этот рецепт!
--- Ограничиваем инвентарь результата, чтобы там не копилось слишком много
-dispatcher.result_inventory_size = 1
-dispatcher.source_inventory_size = 1
-dispatcher.graphics_set = {
-    animation = {
-  layers = {
-        {
-          filename = "__base__/graphics/entity/beacon/beacon-shadow.png",
-          width = 244,
-          height = 176,
-          shift = util.by_pixel(12.5, 0.5), --filename =  q .. "/graphics/entity/beacon/beacon-bottom1.png",
-          frame_count = 1,
-          draw_as_shadow = true,
-          scale = 0.5,
-        },
-        {
-          filename =  q .. "/graphics/entity/beakon/beacon-bottom1.png",
-          width = 212,
-          height = 192,
-          --shift = util.by_pixel(12.5, 0.5),
-          frame_count = 1,
-          --draw_as_shadow = true,
-          scale = 0.5,
-        },
-      }
-    }
-}
-data:extend{dispatcher}
 
 
 
